@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissors</title>
+</head>
+<body>
+  <script>
+    //function that takes a string and returns that string with only the first letter capitalized
+    function capitalize(string) {
+      let newStringLower = string.toLowerCase() //lowercase entire string
+      let lowerStringArray = newStringLower.split('') //convert lowercased string to array of characters
+      let firstChar = lowerStringArray[0] //define first character of string
+      let capFirstChar = firstChar.toUpperCase() //convert the first character to uppercase (capitalize)
+      let remainingCharArray = lowerStringArray.slice(1) //array containing remaining characters after the first character
+      let remainingCharString = remainingCharArray.join('') //convert remaining characters back into a string
+      let newString = capFirstChar + remainingCharString //concatenate capitalized first letter and remaining lowercased letters into new string (done)
+
+      return newString
+    }
+
+    //function will generate computer's play by randomly returning either ‘Rock’, ‘Paper’ or ‘Scissors’
+    function getComputerChoice () {
+      let num = Math.floor(Math.random() * 3); //returns a random integer from 0 to 2
+      let computerChoice; //declare variable 'computerChoice' which will be defined as value of type String by following if/else statement
+
+      //if/else statement which assigns the randomized integer (either 0, 1, or 2) to "Rock", "Paper", or "Scissors", respectively
+      if (num === 2) {
+        computerChoice = "Rock";
+      }
+      else if (num == 1) {
+        computerChoice = "Paper";
+      }
+      else if (num == 0) {
+        computerChoice = "Scissors"
+      }
+      
+      //function will return the result of the if/else statement as the computer's random play
+      return computerChoice;
+    }
+
+    //function will play a single round of Rock Paper Scissors
+    function playRound(playerSelection, computerSelection) {
+      console.log(`Your move: ${playerSelection}`);
+      console.log(`Computer's move: ${computerSelection}`);
+      
+      let result; //declare variable 'result' which will be used to return the result of the round
+
+      //rules of game if user's move is "Rock":
+      if (playerSelection === "Rock" && computerSelection === "Rock") {
+        result = "It's a tie!";
+      }
+      else if (playerSelection === "Rock" && computerSelection == "Scissors") {
+        result = `You win! ${playerSelection} beats ${computerSelection}`;
+      }
+      else if (playerSelection === "Rock" && computerSelection == "Paper") {
+        result = `You lose! ${computerSelection} beats ${playerSelection}`;
+      }
+      //rules of game if user's move is "Paper":
+      else if (playerSelection === "Paper" && computerSelection === "Paper") {
+        result = `It's a tie!`;
+      }
+      else if (playerSelection === "Paper" && computerSelection == "Rock") {
+        result = `You win! ${playerSelection} beats ${computerSelection}`;
+      }
+      else if (playerSelection === "Paper" && computerSelection == "Scissors") {
+        result = `You lose! ${computerSelection} beats ${playerSelection}`;
+      }
+      //rules of game if user's move is "Scissors":
+      else if (playerSelection === "Scissors" && computerSelection === "Scissors") {
+        result = `It's a tie!`;
+      }
+      else if (playerSelection === "Scissors" && computerSelection == "Paper") {
+        result = `You win! ${playerSelection} beats ${computerSelection}`;
+      }
+      else if (playerSelection === "Scissors" && computerSelection == "Rock") {
+        result = `You lose! ${computerSelection} beats ${playerSelection}`;
+      }
+      //if anything else is inputted:
+      else if (playerSelection != "Rock" || playerSelection != "Paper" || playerSelection != "Scissors") {
+        result = "You must enter either Rock, Paper, or Scissors to play the game!";
+      }
+
+      return result;
+    }
+
+    //function will play a 5 round game that keeps score and reports a winner or loser at the end
+    function game() {
+      let playerScore = 0; //create playerScore counter and initialize it to 0
+      let computerScore = 0; //create computerScore counter and initialize it to 0
+      
+      //loop over function call of playRound() from 1 to 5 (5 times)
+      for (let i = 1; i <= 5; i++) {
+        computerSelection = getComputerChoice();
+        playerSelection = capitalize(prompt("Please enter your move: ")); //user input made case-insensitive by converting it to a string with only the first letter capitalized
+        
+        console.log(`Round ${i} of 5:`)
+        let roundResult = playRound(playerSelection, computerSelection); //play round of Rock Paper Scissors
+        console.log(roundResult);
+
+        //if player is the winner of the round, increment playerScore and output current scores
+        if (roundResult === `You win! ${playerSelection} beats ${computerSelection}`) {
+          playerScore++;
+          console.log(
+            `Current Score: \nYou: ${playerScore} \nComputer: ${computerScore}`
+            );
+        }
+        //if computer is the winner of the round, increment computerScore and output current scores
+        else if (roundResult === `You lose! ${computerSelection} beats ${playerSelection}`) {
+          computerScore++;
+          console.log(
+            `Current Score: \nYou: ${playerScore} \nComputer: ${computerScore}`
+            );
+        }
+        //if it is a tie, just output current scores
+        else {
+          console.log(
+            `Current Score: \nYou: ${playerScore} \nComputer: ${computerScore}`
+            );
+        }
+        console.log(`\n`);
+      }
+
+      console.log(`Final Score: \nYou: ${playerScore} \nComputer: ${computerScore}`);
+      
+      if (playerScore > computerScore) {
+        console.log("You win the game! The computer bytes the dust.")
+      }
+      else if (playerScore < computerScore) {
+        console.log("You lose the game! The computer is better than you, human.")
+      }
+      else if (playerScore === computerScore) {
+        console.log("The game ends in a tie!")
+      }
+    }
+    
+    console.log(game());
+  </script>
+</body>
+</html>
